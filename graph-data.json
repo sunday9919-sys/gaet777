@@ -1,0 +1,219 @@
+{
+  "nodes": [
+    {
+      "id": "receipt-001",
+      "type": "receipt",
+      "label": "RCP-20150722-001",
+      "data": {
+        "날짜": "2015-07-22",
+        "요일": "수",
+        "방문순서": 1,
+        "총액": 123000
+      }
+    },
+    {
+      "id": "weather-001",
+      "type": "weather",
+      "label": "맑음",
+      "data": {
+        "날짜": "2015-07-22",
+        "날씨": "맑음"
+      }
+    },
+    {
+      "id": "table-09",
+      "type": "table",
+      "label": "테이블 09",
+      "data": {
+        "테이블번호": "09",
+        "위치": "실내"
+      }
+    },
+    {
+      "id": "menu-sashimi-001",
+      "type": "menu-sashimi",
+      "label": "대(회) x1",
+      "data": {
+        "메뉴명": "대",
+        "수량": 1,
+        "카테고리": "회"
+      }
+    },
+    {
+      "id": "menu-food-001",
+      "type": "menu-food",
+      "label": "공기밥 x2",
+      "data": {
+        "메뉴명": "공기밥",
+        "수량": 2,
+        "카테고리": "식사"
+      }
+    },
+    {
+      "id": "menu-food-002",
+      "type": "menu-food",
+      "label": "구이 x1",
+      "data": {
+        "메뉴명": "구이",
+        "수량": 1,
+        "카테고리": "식사"
+      }
+    },
+    {
+      "id": "menu-drink-001",
+      "type": "menu-drink",
+      "label": "소주 x4",
+      "data": {
+        "메뉴명": "소주",
+        "수량": 4,
+        "카테고리": "주류"
+      }
+    },
+    {
+      "id": "menu-drink-002",
+      "type": "menu-drink",
+      "label": "맥주 x1",
+      "data": {
+        "메뉴명": "맥주",
+        "수량": 1,
+        "카테고리": "주류"
+      }
+    },
+    {
+      "id": "receipt-002",
+      "type": "receipt",
+      "label": "RCP-20150722-002",
+      "data": {
+        "날짜": "2015-07-22",
+        "요일": "수",
+        "방문순서": 2,
+        "총액": 121000
+      }
+    },
+    {
+      "id": "table-03",
+      "type": "table",
+      "label": "테이블 03",
+      "data": {
+        "테이블번호": "03",
+        "위치": "실내"
+      }
+    },
+    {
+      "id": "menu-sashimi-002",
+      "type": "menu-sashimi",
+      "label": "중(회) x1",
+      "data": {
+        "메뉴명": "중",
+        "수량": 1,
+        "카테고리": "회"
+      }
+    },
+    {
+      "id": "menu-drink-003",
+      "type": "menu-drink",
+      "label": "소주 x2",
+      "data": {
+        "메뉴명": "소주",
+        "수량": 2,
+        "카테고리": "주류"
+      }
+    },
+    {
+      "id": "menu-drink-004",
+      "type": "menu-drink",
+      "label": "맥주 x5",
+      "data": {
+        "메뉴명": "맥주",
+        "수량": 5,
+        "카테고리": "주류"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-001",
+      "source": "receipt-001",
+      "target": "weather-001",
+      "type": "has-weather",
+      "label": "날씨"
+    },
+    {
+      "id": "edge-002",
+      "source": "receipt-001",
+      "target": "table-09",
+      "type": "uses-table",
+      "label": "테이블"
+    },
+    {
+      "id": "edge-003",
+      "source": "receipt-001",
+      "target": "menu-sashimi-001",
+      "type": "orders-menu",
+      "label": "주문"
+    },
+    {
+      "id": "edge-004",
+      "source": "receipt-001",
+      "target": "menu-food-001",
+      "type": "orders-menu",
+      "label": "주문"
+    },
+    {
+      "id": "edge-005",
+      "source": "receipt-001",
+      "target": "menu-food-002",
+      "type": "orders-menu",
+      "label": "주문"
+    },
+    {
+      "id": "edge-006",
+      "source": "receipt-001",
+      "target": "menu-drink-001",
+      "type": "orders-menu",
+      "label": "주문"
+    },
+    {
+      "id": "edge-007",
+      "source": "receipt-001",
+      "target": "menu-drink-002",
+      "type": "orders-menu",
+      "label": "주문"
+    },
+    {
+      "id": "edge-008",
+      "source": "receipt-002",
+      "target": "weather-001",
+      "type": "has-weather",
+      "label": "날씨"
+    },
+    {
+      "id": "edge-009",
+      "source": "receipt-002",
+      "target": "table-03",
+      "type": "uses-table",
+      "label": "테이블"
+    },
+    {
+      "id": "edge-010",
+      "source": "receipt-002",
+      "target": "menu-sashimi-002",
+      "type": "orders-menu",
+      "label": "주문"
+    },
+    {
+      "id": "edge-011",
+      "source": "receipt-002",
+      "target": "menu-drink-003",
+      "type": "orders-menu",
+      "label": "주문"
+    },
+    {
+      "id": "edge-012",
+      "source": "receipt-002",
+      "target": "menu-drink-004",
+      "type": "orders-menu",
+      "label": "주문"
+    }
+  ]
+}

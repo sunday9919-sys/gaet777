@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>갯마을 식당 네트워크 그래프</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- 헤더 -->
+    <header>
+      <h1>🍽️ 갯마을 식당 네트워크 그래프</h1>
+      <p class="subtitle">영수증, 날씨, 테이블, 메뉴의 관계를 시각화합니다</p>
+    </header>
+
+    <!-- 메인 레이아웃 -->
+    <div class="main-layout">
+      <!-- 왼쪽 사이드바: 툴바 & 필터 -->
+      <div class="sidebar">
+        <h2>🛠️ 도구</h2>
+        <div class="toolbar">
+          <button class="btn btn-primary" id="btn-add-node">
+            <span class="btn-icon">➕</span> 노드 추가
+          </button>
+          <button class="btn btn-primary" id="btn-add-edge">
+            <span class="btn-icon">🔗</span> 엣지 추가
+          </button>
+          <button class="btn btn-secondary" id="btn-export">
+            <span class="btn-icon">📥</span> 데이터 내보내기
+          </button>
+          <button class="btn btn-secondary" id="btn-import">
+            <span class="btn-icon">📤</span> 데이터 가져오기
+          </button>
+          <button class="btn btn-secondary" id="btn-reset">
+            <span class="btn-icon">🔄</span> 레이아웃 초기화
+          </button>
+        </div>
+
+        <!-- 필터 -->
+        <div class="filter-section">
+          <h3>🎨 노드 필터</h3>
+          
+          <div class="filter-group">
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" class="filter-checkbox" data-type="receipt" checked>
+                <span class="node-color-indicator color-receipt"></span>
+                <span>영수증</span>
+              </label>
+              
+              <label class="checkbox-label">
+                <input type="checkbox" class="filter-checkbox" data-type="weather" checked>
+                <span class="node-color-indicator color-weather"></span>
+                <span>날씨</span>
+              </label>
+              
+              <label class="checkbox-label">
+                <input type="checkbox" class="filter-checkbox" data-type="table" checked>
+                <span class="node-color-indicator color-table"></span>
+                <span>테이블</span>
+              </label>
+              
+              <label class="checkbox-label">
+                <input type="checkbox" class="filter-checkbox" data-type="menu-sashimi" checked>
+                <span class="node-color-indicator color-menu-sashimi"></span>
+                <span>회 메뉴</span>
+              </label>
+              
+              <label class="checkbox-label">
+                <input type="checkbox" class="filter-checkbox" data-type="menu-food" checked>
+                <span class="node-color-indicator color-menu-food"></span>
+                <span>식사 메뉴</span>
+              </label>
+              
+              <label class="checkbox-label">
+                <input type="checkbox" class="filter-checkbox" data-type="menu-drink" checked>
+                <span class="node-color-indicator color-menu-drink"></span>
+                <span>주류</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- 통계 -->
+        <div class="filter-section">
+          <h3>📊 통계</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-value" id="stat-nodes">0</div>
+              <div class="stat-label">총 노드</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="stat-edges">0</div>
+              <div class="stat-label">총 엣지</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 중앙: 그래프 캔버스 -->
+      <div class="graph-container">
+        <canvas id="graph-canvas"></canvas>
+        <div class="canvas-overlay">
+          <strong>노드:</strong> 0 / 0 &nbsp; <strong>엣지:</strong> 0
+        </div>
+      </div>
+
+      <!-- 오른쪽: 상세 패널 -->
+      <div class="detail-panel">
+        <h2>📋 상세 정보</h2>
+        <div id="detail-panel-content">
+          <div class="no-selection">
+            <div class="no-selection-icon">🎯</div>
+            <p>노드를 클릭하여<br>상세 정보를 확인하세요</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 노드 추가 모달 -->
+  <div class="modal" id="modal-add-node">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>➕ 노드 추가</h2>
+      </div>
+      <form id="form-add-node">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>노드 ID *</label>
+            <input type="text" id="node-id" required placeholder="예: receipt-003">
+          </div>
+          
+          <div class="form-group">
+            <label>노드 타입 *</label>
+            <select id="node-type" required>
+              <option value="receipt">영수증</option>
+              <option value="weather">날씨</option>
+              <option value="table">테이블</option>
+              <option value="menu-sashimi">회 메뉴</option>
+              <option value="menu-food">식사 메뉴</option>
+              <option value="menu-drink">주류</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label>라벨 *</label>
+            <input type="text" id="node-label" required placeholder="예: RCP-20150722-003">
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-close">취소</button>
+          <button type="submit" class="btn btn-success">추가</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 엣지 추가 모달 -->
+  <div class="modal" id="modal-add-edge">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>🔗 엣지 추가</h2>
+      </div>
+      <form id="form-add-edge">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>소스 노드 *</label>
+            <select id="edge-source" required>
+              <!-- 동적으로 채워짐 -->
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label>타겟 노드 *</label>
+            <select id="edge-target" required>
+              <!-- 동적으로 채워짐 -->
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label>관계 타입 *</label>
+            <select id="edge-type" required>
+              <option value="has-weather">날씨 관계</option>
+              <option value="uses-table">테이블 사용</option>
+              <option value="orders-menu">메뉴 주문</option>
+              <option value="custom">기타</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label>라벨</label>
+            <input type="text" id="edge-label" placeholder="예: 주문">
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-close">취소</button>
+          <button type="submit" class="btn btn-success">추가</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 토스트 알림 -->
+  <div class="toast" id="toast">
+    <span class="toast-icon" id="toast-icon">✓</span>
+    <span class="toast-message" id="toast-message">작업이 완료되었습니다.</span>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
